@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import Authcontext from '../../Provider/AuthContext';
+import { GoogleAuthProvider } from 'firebase/auth';
+
 
 const Login = () => {
+    const{SignIn,LoginInWithGoogle}=useContext(Authcontext)
+    const provider = new GoogleAuthProvider();
     const [show, setShow] = useState(false);
     const [email, setEmail] = useState('');
     const Location = useLocation();
@@ -14,12 +19,37 @@ const Login = () => {
         e.preventDefault();
         const password = e.target.password.value;
         const email = e.target.email.value;
-        
-        setTimeout(() => {
-            navigate(`${location.state ? location.state : "/"}`)
-          }, 1500);
+       
+        SignIn(email,password)
+        .then(() => {
+            toast("Login Successful")
+            setTimeout(() => {
+                navigate(`${location.state ? location.state : "/"}`)
+              }, 1500);
+            
+        })
+        .catch((error) => {
+            toast.error("Login Failed");
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+        });
 
-        console.log(password,email);
+    }
+
+    const handleGoogleSignIn = () => {
+       
+        LoginInWithGoogle(provider)
+            .then(() => {
+                toast.success("Google Login Successful");
+                setTimeout(() => {
+                    navigate(`${location.state ? location.state : "/"}`)
+                  }, 1500);    
+            })
+            .catch(error => {
+                toast.error("Google Sign-In Failed");
+                console.log(error);
+            })
     }
 
     return (
@@ -60,7 +90,7 @@ const Login = () => {
 
                    <p className='text-[15px]'>Don't have an account? <Link to={"/auth/register"} className='text-secondary'>Register</Link></p>
 
-                   {/* <button onClick={handleGoogleSignIn} className='btn btn-neutral mt-4'>Sign in with Google</button> */}
+                   <button onClick={handleGoogleSignIn} className='btn btn-neutral mt-4'>Sign in with Google</button>
                    <ToastContainer />
                </fieldset>
            </form>

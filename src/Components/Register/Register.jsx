@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import Authcontext from '../../Provider/AuthContext';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const Register = () => {
+    const{SignUp,LoginInWithGoogle}=useContext(Authcontext)
+    const provider = new GoogleAuthProvider();
     const [show, setShow] = useState(false);
     const [password1,setPassword1]=useState('')
     const navigate=useNavigate()
@@ -19,13 +23,40 @@ const Register = () => {
 
         if(password1 === password2){
         console.log(name,email,password1,password2,photo)
-        navigate('/auth/login')
+
+          SignUp(email,password1)
+            .then(()=>{    
+            toast("Registration is successful");
+            setTimeout(() => {
+                 navigate('/auth/login')
+            }, 1500);
+           
+        })
+        .catch((error)=>{
+            toast.error("Registration Failed");
+            console.log(error);
+        })
         }
         else{
             alert("password did not match")
         }
 
     }
+
+    const handleGoogleSignIn = () => {
+       
+        LoginInWithGoogle(provider)
+            .then(() => {
+                toast.success("Google Login Successful");
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
+            })
+            .catch(error => {
+                toast.error("Google Sign-In Failed");
+                console.error(error);
+            });
+    };
 
     return (
         <div className='flex justify-center min-h-screen items-center'>
@@ -89,7 +120,7 @@ const Register = () => {
 
                         <p className='text-[15px]'>Already have an account? <Link to={"/auth/login"} className='text-secondary'>Login</Link></p>
 
-                       {/* <button type="button" onClick={handleGoogleSignIn} className='btn btn-neutral mt-4'>Sign in with Google</button>   */}
+                        <button type="button" onClick={handleGoogleSignIn} className='btn btn-neutral mt-4'>Sign in with Google</button>   
                        
                     </fieldset>
                 </form>

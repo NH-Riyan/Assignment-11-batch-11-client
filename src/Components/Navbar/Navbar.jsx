@@ -1,8 +1,22 @@
-import React from 'react';
-import {  Link, NavLink } from 'react-router';
+import React, { useContext } from 'react';
+import { Link, NavLink } from 'react-router';
+import Authcontext from '../../Provider/AuthContext';
 
 
 const Navbar = () => {
+
+
+  const { user, LogOut, loading } = useContext(Authcontext);
+
+  const handleLogout = () => {
+    LogOut()
+      .then(() => {
+        alert('you logged out')
+      }).catch((error) => {
+        console.log(error.message)
+      });
+  }
+
   const link = <>
     <NavLink>Home</NavLink>
     <NavLink>Add Courses</NavLink>
@@ -19,7 +33,7 @@ const Navbar = () => {
             {link}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl italic">Course Era</a>
+        <p className=" text-3xl italic">Course <span className='text-green-600'>Era</span> </p>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-5">
@@ -27,11 +41,25 @@ const Navbar = () => {
         </ul>
       </div>
       <div className='flex gap-4 navbar-end'>
-      <Link to='/auth/login' className='btn btn-primary px-7'>Login</Link>
-      <Link to='/auth/register' className='btn btn-primary px-7'>SignUp</Link>
-    </div>
-      </div >
-    );
+        {
+          loading ? (
+            <span className="loading loading-spinner loading-md"></span>
+          ) : user ? (
+            <div className='flex gap-4'>
+              <img className='rounded-full w-10 h-10 border-2' title={user.displayName} src={user.photoURL} alt="" />
+              <Link onClick={handleLogout} className='btn btn-primary px-7'>LogOut</Link>
+            </div>
+          ) : (
+            <div className='flex gap-4'>
+              <Link to='/auth/login' className='btn btn-primary px-7'>Login</Link>
+              <Link to='/auth/register' className='btn btn-primary px-7'>SignUp</Link>
+            </div>
+          )
+        }
+
+      </div>
+    </div >
+  );
 };
 
 export default Navbar;
