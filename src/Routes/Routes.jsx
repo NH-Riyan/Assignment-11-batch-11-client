@@ -4,6 +4,7 @@ import Home from "../Components/Home/Home";
 import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../Components/Login/Login";
 import Register from "../Components/Register/Register";
+import AddCourse from "../Components/AddCourse/AddCourse";
 
 export const router = createBrowserRouter([
     {
@@ -13,6 +14,10 @@ export const router = createBrowserRouter([
         {
             path: "/",
             element: <Home></Home>
+        },
+        {
+            path:"/addcourse",
+            element:<AddCourse></AddCourse>     
         }
       ]
     },

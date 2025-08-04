@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const link = <>
     <NavLink>Home</NavLink>
-    <NavLink>Add Courses</NavLink>
+    <NavLink to={"/addcourse"}>Add Courses</NavLink>
     <NavLink>Courses</NavLink>
     <NavLink>My Courses</NavLink>
   </>
