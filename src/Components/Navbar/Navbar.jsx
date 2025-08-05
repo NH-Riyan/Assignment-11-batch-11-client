@@ -20,7 +20,7 @@ const Navbar = () => {
   const link = <>
     <NavLink>Home</NavLink>
     <NavLink to={"/addcourse"}>Add Courses</NavLink>
-    <NavLink>Courses</NavLink>
+    <NavLink to={"/courses"}>Courses</NavLink>
     <NavLink>My Courses</NavLink>
   </>
   return (
