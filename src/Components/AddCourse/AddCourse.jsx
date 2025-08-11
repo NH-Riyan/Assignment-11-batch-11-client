@@ -11,9 +11,9 @@ const AddCourse = () => {
     const AddCourse = (e) => {
         e.preventDefault();
         const title = e.target.title.value;
-        const Description = e.target.description.value;
+        const description = e.target.description.value;
         const poster = e.target.poster.value;
-        const Duration = e.target.duration.value;
+        const duration = e.target.duration.value;
 
         const now = new Date();
         const date = now.toLocaleDateString();
@@ -23,9 +23,9 @@ const AddCourse = () => {
             username: user.displayName,
             email: user.email,
             title,
-            Description,
+            description,
             poster,
-            Duration,
+            duration,
             time: date +" "+ time,
         }
 

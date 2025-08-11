@@ -21,7 +21,7 @@ const Navbar = () => {
     <NavLink>Home</NavLink>
     <NavLink to={"/addcourse"}>Add Courses</NavLink>
     <NavLink to={"/courses"}>Courses</NavLink>
-    <NavLink>My Courses</NavLink>
+    <NavLink to={"/mycourses"}>My Courses</NavLink>
   </>
   return (
     <div className="navbar bg-base-100 shadow-sm">

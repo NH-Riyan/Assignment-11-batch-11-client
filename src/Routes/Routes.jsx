@@ -6,6 +6,8 @@ import Login from "../Components/Login/Login";
 import Register from "../Components/Register/Register";
 import AddCourse from "../Components/AddCourse/AddCourse";
 import Allcourses from "../Components/AllCourses/Allcourses";
+import MyCourse from "../Components/MyCourse/MyCourse";
+import UpdateCourse from "../Components/UpdateCourse/UpdateCourse";
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +25,15 @@ export const router = createBrowserRouter([
         {
             path:"/courses",
             element:<Allcourses></Allcourses>
+        },
+        {
+          path:"/mycourses",
+          element:<MyCourse></MyCourse>
+        },
+        {
+          path:"/editcourses/:id",
+          loader:({params})=>fetch(`http://localhost:3000/courses/${params.id}`),
+          element:<UpdateCourse></UpdateCourse>
         }
       ]
     },
