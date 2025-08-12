@@ -8,6 +8,8 @@ import AddCourse from "../Components/AddCourse/AddCourse";
 import Allcourses from "../Components/AllCourses/Allcourses";
 import MyCourse from "../Components/MyCourse/MyCourse";
 import UpdateCourse from "../Components/UpdateCourse/UpdateCourse";
+import Details from "../Components/Details/Details";
+import EnrolledCourses from "../Components/EnrolledCourses/EnrolledCourses";
 
 export const router = createBrowserRouter([
     {
@@ -34,6 +36,16 @@ export const router = createBrowserRouter([
           path:"/editcourses/:id",
           loader:({params})=>fetch(`http://localhost:3000/courses/${params.id}`),
           element:<UpdateCourse></UpdateCourse>
+        },
+        {
+          path: "/details/:id",
+          loader:({params})=>fetch(`http://localhost:3000/courses/${params.id}`),
+          element:<Details></Details>
+        },
+        {
+          path:"/enrolledcourses",
+          loader:({params})=> fetch(`http://localhost:3000/users/${params}`),
+          element:<EnrolledCourses></EnrolledCourses>
         }
       ]
     },

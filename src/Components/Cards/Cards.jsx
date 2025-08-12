@@ -1,5 +1,6 @@
 import { Card } from 'flowbite-react';
 import React from 'react';
+import { Link } from 'react-router';
 
 const Cards = ({ course }) => {
   return (
@@ -20,6 +21,7 @@ const Cards = ({ course }) => {
         <p className="font-normal text-gray-700 dark:text-gray-400">
           {course.Description}
         </p>
+        <Link className='btn bg-white' to={`/details/${course._id}`}>View Details</Link>
       </Card>
     </div>
 

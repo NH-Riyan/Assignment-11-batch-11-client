@@ -11,7 +11,6 @@ const Allcourses = () => {
             .catch((err) => console.error("Failed to load listings:", err));
     }, []);
 
-    console.log(courses)
 
     return (
 

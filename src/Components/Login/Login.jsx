@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { toast, ToastContainer } from 'react-toastify';
 import Authcontext from '../../Provider/AuthContext';
 import { GoogleAuthProvider } from 'firebase/auth';
+import axios from 'axios';
 
 
 const Login = () => {
@@ -15,14 +16,27 @@ const Login = () => {
     const Location = useLocation();
     const navigate=useNavigate();
 
+
+
+
     const handleLogin=e=>{
         e.preventDefault();
         const password = e.target.password.value;
         const email = e.target.email.value;
        
         SignIn(email,password)
-        .then(() => {
+        .then((res) => {
             toast("Login Successful")
+
+            const useremail=res.user.email
+            const userData = {
+                email: useremail,
+                enrolledcourses: [],
+              };
+
+            axios.post('http://localhost:3000/login',userData)
+            .catch(err => console.error('Failed to store user on backend:', err));
+
             setTimeout(() => {
                 navigate(`${location.state ? location.state : "/"}`)
               }, 1500);
