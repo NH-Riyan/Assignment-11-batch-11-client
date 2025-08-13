@@ -10,6 +10,8 @@ import MyCourse from "../Components/MyCourse/MyCourse";
 import UpdateCourse from "../Components/UpdateCourse/UpdateCourse";
 import Details from "../Components/Details/Details";
 import EnrolledCourses from "../Components/EnrolledCourses/EnrolledCourses";
+import Errorpage from "../Components/Errorpage/Errorpage";
+import PrivateRoutes from "../Components/PrivateRoutes/PrivateRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -22,7 +24,7 @@ export const router = createBrowserRouter([
         },
         {
             path:"/addcourse",
-            element:<AddCourse></AddCourse>     
+            element:<PrivateRoutes><AddCourse></AddCourse></PrivateRoutes>   
         },
         {
             path:"/courses",
@@ -30,12 +32,12 @@ export const router = createBrowserRouter([
         },
         {
           path:"/mycourses",
-          element:<MyCourse></MyCourse>
+          element:<PrivateRoutes><MyCourse></MyCourse></PrivateRoutes>
         },
         {
           path:"/editcourses/:id",
           loader:({params})=>fetch(`http://localhost:3000/courses/${params.id}`),
-          element:<UpdateCourse></UpdateCourse>
+          element:<PrivateRoutes><UpdateCourse></UpdateCourse></PrivateRoutes>
         },
         {
           path: "/details/:id",
@@ -45,7 +47,7 @@ export const router = createBrowserRouter([
         {
           path:"/enrolledcourses",
           loader:({params})=> fetch(`http://localhost:3000/users/${params}`),
-          element:<EnrolledCourses></EnrolledCourses>
+          element:<PrivateRoutes><EnrolledCourses></EnrolledCourses></PrivateRoutes>
         }
       ]
     },
@@ -62,5 +64,9 @@ export const router = createBrowserRouter([
           element: <Register></Register>
         }
       ]
-    }
+    },
+    {
+    path: "*",
+    Component: Errorpage,
+  },
   ]);

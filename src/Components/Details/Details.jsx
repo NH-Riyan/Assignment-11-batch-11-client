@@ -20,7 +20,6 @@ const Details = () => {
     }, []);
 
     const handleEnroll = (id) => {
-
         if(!enrolled)
         {
 
@@ -28,8 +27,8 @@ const Details = () => {
             .then(res => res.json())
             .then(async (data) => {
                
-
-                if ((data.enrolledcourses || []).length < 3) {
+                const currentCourses = data?.enrolledcourses || [];
+                if (currentCourses.length < 3) {
 
                     const updatedcourses = data.enrolledcourses || [];
 
@@ -66,7 +65,7 @@ const Details = () => {
                 </div>
 
                 <div className=''>
-                    <button onClick={() => handleEnroll(_id)} className='btn w-full '>
+                    <button onClick={() => handleEnroll(_id)}  disabled={enrolled} className='btn w-full '>
                         {
                             enrolled ?
                                 "Enrolled"

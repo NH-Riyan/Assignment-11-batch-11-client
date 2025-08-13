@@ -29,8 +29,6 @@ const AddCourse = () => {
             time: date +" "+ time,
         }
 
-        console.log(newcourse)
-
 
         axios.post('http://localhost:3000/addcourses', newcourse)
             .then(response => {

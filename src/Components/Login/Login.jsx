@@ -51,20 +51,30 @@ const Login = () => {
 
     }
 
-    const handleGoogleSignIn = () => {
-       
-        LoginInWithGoogle(provider)
-            .then(() => {
-                toast.success("Google Login Successful");
-                setTimeout(() => {
-                    navigate(`${location.state ? location.state : "/"}`)
-                  }, 1500);    
-            })
-            .catch(error => {
-                toast.error("Google Sign-In Failed");
-                console.log(error);
-            })
-    }
+   const handleGoogleSignIn = () => {
+    LoginInWithGoogle(provider)
+        .then((res) => {
+            toast.success("Google Login Successful");
+
+            const useremail = res.user.email;
+            const userData = {
+                email: useremail,
+                enrolledcourses: [], 
+            };
+
+            axios.post('http://localhost:3000/login', userData)
+                .catch(err => console.error('Failed to store user on backend:', err));
+
+            setTimeout(() => {
+                navigate(`${location.state ? location.state : "/"}`);
+            }, 1500);
+        })
+        .catch(error => {
+            toast.error("Google Sign-In Failed");
+            console.log(error);
+        });
+}
+
 
     return (
         <div className='flex justify-center min-h-screen items-center'>

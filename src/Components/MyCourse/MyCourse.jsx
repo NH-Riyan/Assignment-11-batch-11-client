@@ -3,10 +3,13 @@ import Authcontext from '../../Provider/AuthContext';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { Link} from 'react-router';
+import Loading from '../Loading/Loading';
 
 const MyCourse = () => {
     const { user } = useContext(Authcontext)
     const [Mycourses, setmyCourses] = useState([]);
+
+
 
     useEffect(() => {
         if (user?.email) {
@@ -39,6 +42,8 @@ const MyCourse = () => {
             }
         })
     }
+
+    if(!user) return <Loading></Loading>
 
 
     return (

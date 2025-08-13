@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Authcontext from '../../Provider/AuthContext';
 import { Card } from 'flowbite-react';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import Loading from '../Loading/Loading';
 
 
 const EnrolledCourses = () => {
@@ -16,9 +19,9 @@ const EnrolledCourses = () => {
 
                 const coursePromises = courseIds.map(id =>
                     fetch(`http://localhost:3000/courses/${id}`).then(res => res.json())
-                  );
-            
-                  const courses = await Promise.all(coursePromises);
+                );
+
+                const courses = await Promise.all(coursePromises);
 
                 setEnrolledCourses(courses);
                 console.log(enrolledCourses.length)
@@ -31,8 +34,26 @@ const EnrolledCourses = () => {
     }, []);
 
 
+    const handleRemove = async(id) => {
 
-    if (loading) return <p>Loading...</p>;
+        const { data } = await axios.get(`http://localhost:3000/users/${user.email}`);
+                const CourseArray = data.enrolledcourses || [];
+                const updatedcourses = CourseArray.filter(cid => cid !== id)
+                console.log(id, updatedcourses)
+                const updatedData={
+                    updatedcourses,
+                }
+
+                await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
+
+                setEnrolledCourses(prev => prev.filter(c => (c._id || c.id) !== id));
+                toast.success("cancelled enrollment")
+            
+    }
+
+
+
+    if (!user || loading) return <Loading></Loading>
 
     return (
         <div>
@@ -59,9 +80,10 @@ const EnrolledCourses = () => {
                                 <p className="font-normal text-gray-700 dark:text-gray-400">
                                     {course.description}
                                 </p>
-                                <button className="btn bg-white" to={`/details/${course._id}`}>
-                                       Remove Enrollment`
+                                <button className="btn bg-white" onClick={() => handleRemove(course._id || course.id)}>
+                                    Remove Enrollment`
                                 </button>
+                                <ToastContainer></ToastContainer>
                             </Card>
                         </div>
                     ))}
