@@ -12,7 +12,13 @@ const EnrolledCourses = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/${user.email}`)
+        fetch(`http://localhost:3000/users/${user.email}`,
+            {
+                headers: {
+                    authorization: `Bearer ${user.accessToken}`
+                }
+            }
+        )
             .then(res => res.json())
             .then(async (data) => {
                 const courseIds = data.enrolledcourses || [];
@@ -34,21 +40,26 @@ const EnrolledCourses = () => {
     }, []);
 
 
-    const handleRemove = async(id) => {
+    const handleRemove = async (id) => {
 
-        const { data } = await axios.get(`http://localhost:3000/users/${user.email}`);
-                const CourseArray = data.enrolledcourses || [];
-                const updatedcourses = CourseArray.filter(cid => cid !== id)
-                console.log(id, updatedcourses)
-                const updatedData={
-                    updatedcourses,
-                }
+        const { data } = await axios.get(`http://localhost:3000/users/${user.email}` ,{
+            headers: {
+                Authorization: `Bearer ${user.accessToken}`,
+                "Content-Type": "application/json",
+            }
+        });
+        const CourseArray = data.enrolledcourses || [];
+        const updatedcourses = CourseArray.filter(cid => cid !== id)
+        console.log(id, updatedcourses)
+        const updatedData = {
+            updatedcourses,
+        }
 
-                await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
+        await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
 
-                setEnrolledCourses(prev => prev.filter(c => (c._id || c.id) !== id));
-                toast.success("cancelled enrollment")
-            
+        setEnrolledCourses(prev => prev.filter(c => (c._id || c.id) !== id));
+        toast.success("cancelled enrollment")
+
     }
 
 

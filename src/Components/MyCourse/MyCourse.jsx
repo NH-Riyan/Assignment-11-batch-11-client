@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Authcontext from '../../Provider/AuthContext';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { Link} from 'react-router';
+import { Link } from 'react-router';
 import Loading from '../Loading/Loading';
 
 const MyCourse = () => {
@@ -13,7 +13,13 @@ const MyCourse = () => {
 
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:3000/courses/user/${user.email}`)
+            fetch(`http://localhost:3000/courses/user/${user.email}`,
+                {
+                    headers: {
+                        authorization: `Bearer ${user.accessToken}`
+                    }
+                }
+            )
                 .then((res) => res.json())
                 .then((data) => setmyCourses(data))
                 .catch((err) => console.error("Failed to load courses:", err));
@@ -43,7 +49,7 @@ const MyCourse = () => {
         })
     }
 
-    if(!user) return <Loading></Loading>
+    if (!user) return <Loading></Loading>
 
 
     return (
@@ -70,13 +76,13 @@ const MyCourse = () => {
                                     <td className="border px-4 py-2 text-center" >{course.duration}</td>
                                     <td className="border px-4 py-2 text-center">
                                         <Link to={`/editcourses/${course._id || course.id}`}
-                                            
+
                                             className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded mr-2"
                                         >
                                             Edit
                                         </Link>
                                         <button
-                                             onClick={() => handleDelete(course._id)}
+                                            onClick={() => handleDelete(course._id)}
                                             className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                                         >
                                             Delete

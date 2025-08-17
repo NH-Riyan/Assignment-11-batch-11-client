@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router';
 import Authcontext from '../../Provider/AuthContext';
@@ -11,7 +10,11 @@ const Details = () => {
     const [enrolled, Setenrolled] = useState(false)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/${user.email}`)
+        fetch(`http://localhost:3000/users/${user.email}`, {
+            headers: {
+                authorization: `Bearer ${user.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 const enrolled = data.enrolledcourses || [];
@@ -20,36 +23,39 @@ const Details = () => {
     }, []);
 
     const handleEnroll = (id) => {
-        if(!enrolled)
-        {
+        if (!enrolled) {
 
-        fetch(`http://localhost:3000/users/${user.email}`)
-            .then(res => res.json())
-            .then(async (data) => {
-               
-                const currentCourses = data?.enrolledcourses || [];
-                if (currentCourses.length < 3) {
+            fetch(`http://localhost:3000/users/${user.email}`, {
+            headers: {
+                authorization: `Bearer ${user.accessToken}`
+            }
+        })
+                .then(res => res.json())
+                .then(async (data) => {
 
-                    const updatedcourses = data.enrolledcourses || [];
+                    const currentCourses = data?.enrolledcourses || [];
+                    if (currentCourses.length < 3) {
 
-                    if (!updatedcourses.includes(id)) {
-                        updatedcourses.push(id);
+                        const updatedcourses = data.enrolledcourses || [];
+
+                        if (!updatedcourses.includes(id)) {
+                            updatedcourses.push(id);
+                        }
+
+                        const updatedData = {
+                            updatedcourses
+                        };
+                        const response = await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
+                        toast.success("successfully Enrolled")
+                        Setenrolled(true)
                     }
+                    else
+                        toast.error("You have already enrolled in 3 Courses");
 
-                    const updatedData = {
-                        updatedcourses
-                    };
-                    const response = await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
-                    toast.success("successfully Enrolled")
-                    Setenrolled(true)
-                }
-                else
-                toast.error("You have already enrolled in 3 Courses");
-
-            })
-            .catch(error => {
-                console.error("error:", error);
-            });
+                })
+                .catch(error => {
+                    console.error("error:", error);
+                });
         }
     }
     return (
@@ -65,7 +71,7 @@ const Details = () => {
                 </div>
 
                 <div className=''>
-                    <button onClick={() => handleEnroll(_id)}  disabled={enrolled} className='btn w-full '>
+                    <button onClick={() => handleEnroll(_id)} disabled={enrolled} className='btn w-full '>
                         {
                             enrolled ?
                                 "Enrolled"
