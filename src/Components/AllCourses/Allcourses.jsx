@@ -14,7 +14,7 @@ const Allcourses = () => {
 
     return (
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid space-y-5 grid-cols-1 md:grid-cols-3 gap-4">
         {
         courses.map(course => ( <Cards key={course._id} course={course} />))
         }

@@ -18,7 +18,7 @@ const Navbar = () => {
   }
 
   const link = <>
-    <NavLink>Home</NavLink>
+    <NavLink to={"/"}>Home</NavLink>
     <NavLink to={"/courses"}>Courses</NavLink>
     <NavLink to={"/addcourse"}>Add Courses</NavLink>
     <NavLink to={"/mycourses"}>My Courses</NavLink>
@@ -38,7 +38,7 @@ const Navbar = () => {
         <p className=" text-3xl italic">Course <span className='text-green-600'>Era</span> </p>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-5">
+        <ul className="menu text-lg menu-horizontal px-1 gap-5">
           {link}
         </ul>
       </div>

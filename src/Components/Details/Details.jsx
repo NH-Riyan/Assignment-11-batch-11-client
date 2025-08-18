@@ -26,10 +26,10 @@ const Details = () => {
         if (!enrolled) {
 
             fetch(`http://localhost:3000/users/${user.email}`, {
-            headers: {
-                authorization: `Bearer ${user.accessToken}`
-            }
-        })
+                headers: {
+                    authorization: `Bearer ${user.accessToken}`
+                }
+            })
                 .then(res => res.json())
                 .then(async (data) => {
 
@@ -45,7 +45,11 @@ const Details = () => {
                         const updatedData = {
                             updatedcourses
                         };
-                        const response = await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
+                        await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
+
+                        await axios.patch(`http://localhost:3000/courses/${id}`, {
+                            $inc: { enrollCount: 1 }  
+                        });
                         toast.success("successfully Enrolled")
                         Setenrolled(true)
                     }
@@ -60,8 +64,8 @@ const Details = () => {
     }
     return (
         <div className='flex w-10/12 mx-auto gap-5 border-4 border-base-200 rounded-2xl'>
-            <div>
-                <img className='w-[500px] rounded-2xl' src={poster} alt="" />
+            <div  className='w-[100%] m-5'>
+                <img className=' rounded-2xl' src={poster} alt="" />
             </div>
             <div className='mx-auto'>
                 <div className="py-10 space-y-3 h-[80%]">

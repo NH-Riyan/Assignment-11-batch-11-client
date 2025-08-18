@@ -26,6 +26,7 @@ const AddCourse = () => {
             description,
             poster,
             duration,
+            enrollCount: 0,
             time: date +" "+ time,
         }
 

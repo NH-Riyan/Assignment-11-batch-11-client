@@ -42,7 +42,7 @@ const EnrolledCourses = () => {
 
     const handleRemove = async (id) => {
 
-        const { data } = await axios.get(`http://localhost:3000/users/${user.email}` ,{
+        const { data } = await axios.get(`http://localhost:3000/users/${user.email}`, {
             headers: {
                 Authorization: `Bearer ${user.accessToken}`,
                 "Content-Type": "application/json",
@@ -50,7 +50,8 @@ const EnrolledCourses = () => {
         });
         const CourseArray = data.enrolledcourses || [];
         const updatedcourses = CourseArray.filter(cid => cid !== id)
-        console.log(id, updatedcourses)
+
+
         const updatedData = {
             updatedcourses,
         }
@@ -85,12 +86,14 @@ const EnrolledCourses = () => {
                                 )}
                                 className="rounded-t-3xl rounded-b-2xl border-0"
                             >
-                                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                    {course.title}
-                                </h5>
-                                <p className="font-normal text-gray-700 dark:text-gray-400">
-                                    {course.description}
-                                </p>
+                                <div className='h-24'>
+                                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                        {course.title}
+                                    </h5>
+                                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                                        {course.description.split(" ").slice(0, 8).join(" ")}...
+                                    </p>
+                                </div>
                                 <button className="btn bg-white" onClick={() => handleRemove(course._id || course.id)}>
                                     Remove Enrollment`
                                 </button>
