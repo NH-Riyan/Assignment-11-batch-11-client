@@ -13,7 +13,7 @@ const MyCourse = () => {
 
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:3000/courses/user/${user.email}`,
+            fetch(`https://a11-b11-server.vercel.app/courses/user/${user.email}`,
                 {
                     headers: {
                         authorization: `Bearer ${user.accessToken}`
@@ -39,7 +39,7 @@ const MyCourse = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:3000/courses/${id}`)
+                axios.delete(`https://a11-b11-server.vercel.app/courses/${id}`)
                     .then(() => {
                         setmyCourses(prev => prev.filter(course => course._id !== id))
                         alert("Course deleted successfully!");

@@ -10,7 +10,7 @@ const Details = () => {
     const [enrolled, Setenrolled] = useState(false)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/${user.email}`, {
+        fetch(`https://a11-b11-server.vercel.app/users/${user.email}`, {
             headers: {
                 authorization: `Bearer ${user.accessToken}`
             }
@@ -25,7 +25,7 @@ const Details = () => {
     const handleEnroll = (id) => {
         if (!enrolled) {
 
-            fetch(`http://localhost:3000/users/${user.email}`, {
+            fetch(`https://a11-b11-server.vercel.app/users/${user.email}`, {
                 headers: {
                     authorization: `Bearer ${user.accessToken}`
                 }
@@ -45,9 +45,9 @@ const Details = () => {
                         const updatedData = {
                             updatedcourses
                         };
-                        await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
+                        await axios.patch(`https://a11-b11-server.vercel.app/users/${user.email}`, updatedData);
 
-                        await axios.patch(`http://localhost:3000/courses/${id}`, {
+                        await axios.patch(`https://a11-b11-server.vercel.app/courses/${id}`, {
                             $inc: { enrollCount: 1 }  
                         });
                         toast.success("successfully Enrolled")

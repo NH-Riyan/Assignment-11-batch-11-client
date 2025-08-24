@@ -12,7 +12,7 @@ const EnrolledCourses = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/${user.email}`,
+        fetch(`https://a11-b11-server.vercel.app/users/${user.email}`,
             {
                 headers: {
                     authorization: `Bearer ${user.accessToken}`
@@ -24,13 +24,13 @@ const EnrolledCourses = () => {
                 const courseIds = data.enrolledcourses || [];
 
                 const coursePromises = courseIds.map(id =>
-                    fetch(`http://localhost:3000/courses/${id}`).then(res => res.json())
+                    fetch(`https://a11-b11-server.vercel.app/courses/${id}`).then(res => res.json())
                 );
 
                 const courses = await Promise.all(coursePromises);
 
                 setEnrolledCourses(courses);
-                console.log(enrolledCourses.length)
+              //  console.log(enrolledCourses.length)
                 setLoading(false);
             })
             .catch(err => {
@@ -42,7 +42,7 @@ const EnrolledCourses = () => {
 
     const handleRemove = async (id) => {
 
-        const { data } = await axios.get(`http://localhost:3000/users/${user.email}`, {
+        const { data } = await axios.get(`https://a11-b11-server.vercel.app/users/${user.email}`, {
             headers: {
                 Authorization: `Bearer ${user.accessToken}`,
                 "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const EnrolledCourses = () => {
             updatedcourses,
         }
 
-        await axios.patch(`http://localhost:3000/users/${user.email}`, updatedData);
+        await axios.patch(`https://a11-b11-server.vercel.app/users/${user.email}`, updatedData);
 
         setEnrolledCourses(prev => prev.filter(c => (c._id || c.id) !== id));
         toast.success("cancelled enrollment")

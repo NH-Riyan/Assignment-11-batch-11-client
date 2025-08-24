@@ -31,7 +31,7 @@ const AddCourse = () => {
         }
 
 
-        axios.post('http://localhost:3000/addcourses', newcourse)
+        axios.post('https://a11-b11-server.vercel.app/addcourses', newcourse)
             .then(response => {
                 const data = response.data;
                 if (data.insertedId) {

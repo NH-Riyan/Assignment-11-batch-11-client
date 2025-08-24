@@ -22,7 +22,7 @@ const Register = () => {
         const photo = e.target.photo.value;
 
         if(password1 === password2){
-        console.log(name,email,password1,password2,photo)
+        
 
           SignUp(email,password1)
             .then(()=>{    

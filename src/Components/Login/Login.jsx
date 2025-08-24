@@ -13,7 +13,7 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     const [show, setShow] = useState(false);
     const [email, setEmail] = useState('');
-    const Location = useLocation();
+    const location = useLocation();
     const navigate=useNavigate();
 
 
@@ -34,12 +34,13 @@ const Login = () => {
                 enrolledcourses: [],
               };
 
-            axios.post('http://localhost:3000/login',userData)
+            axios.post('https://a11-b11-server.vercel.app/login',userData)
             .catch(err => console.error('Failed to store user on backend:', err));
 
             setTimeout(() => {
                 navigate(`${location.state ? location.state : "/"}`)
               }, 1500);
+
             
         })
         .catch((error) => {
@@ -62,7 +63,7 @@ const Login = () => {
                 enrolledcourses: [], 
             };
 
-            axios.post('http://localhost:3000/login', userData)
+            axios.post('https://a11-b11-server.vercel.app/login', userData)
                 .catch(err => console.error('Failed to store user on backend:', err));
 
             setTimeout(() => {

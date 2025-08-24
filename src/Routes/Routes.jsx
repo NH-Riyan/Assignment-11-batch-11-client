@@ -31,21 +31,29 @@ export const router = createBrowserRouter([
       },
       {
         path: "/mycourses",
-        element: <PrivateRoutes><MyCourse></MyCourse></PrivateRoutes>
+        element: <PrivateRoutes>
+          <MyCourse></MyCourse>
+        </PrivateRoutes>
       },
       {
         path: "/editcourses/:id",
-        loader: ({ params }) => fetch(`http://localhost:3000/courses/${params.id}`),
-        element: <PrivateRoutes><UpdateCourse></UpdateCourse></PrivateRoutes>
+        loader: ({ params }) => fetch(`https://a11-b11-server.vercel.app/courses/${params.id}`),
+        element: <PrivateRoutes>
+          <UpdateCourse></UpdateCourse>
+        </PrivateRoutes>
       },
       {
         path: "/details/:id",
-        loader: ({ params }) => fetch(`http://localhost:3000/courses/${params.id}`),
-        element: <Details></Details>
+        loader: ({ params }) => fetch(`https://a11-b11-server.vercel.app/courses/${params.id}`),
+        element: <PrivateRoutes>
+          <Details></Details>
+        </PrivateRoutes>
       },
       {
         path: "/enrolledcourses",
-        element: <PrivateRoutes><EnrolledCourses></EnrolledCourses></PrivateRoutes>
+        element: <PrivateRoutes>
+          <EnrolledCourses></EnrolledCourses>
+        </PrivateRoutes>
       }
     ]
   },

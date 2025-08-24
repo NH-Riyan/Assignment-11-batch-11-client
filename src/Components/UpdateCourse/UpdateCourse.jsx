@@ -22,7 +22,7 @@ const UpdateCourse = () => {
             duration,
         };
 
-        const response = await axios.patch(`http://localhost:3000/courses/${_id}`, updatedData);
+        const response = await axios.patch(`https://a11-b11-server.vercel.app/courses/${_id}`, updatedData);
         if(response.data.modifiedCount){
         Swal.fire({
             title: "Updated",

@@ -6,15 +6,15 @@ const TopCourses = () => {
      const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/topcourses')
+        axios.get('https://a11-b11-server.vercel.app/topcourses')
             .then(res => setCourses(res.data))
             .catch(err => console.error(err));
     }, []);
 
     return (
-        <div>
-            <h3 className='text-center text-3xl font-mono my-7'>Most Enrolled Courses</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div> 
+            <h3 className='text-center text-3xl font-mono my-7 mx-15'>Most Enrolled Courses</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
             {courses.map(course => (
                 <Cards key={course._id} course={course} />
             ))}
